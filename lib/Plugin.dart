@@ -220,8 +220,13 @@ class Plugin {
     _webRTCHandle.pc = null;
   }
 
-  hangupAndDeleteRoom({int room = 1234, String secret = "adminpwd"}) async {
-    this.send(message: {"request": "destroy", "room": room, "secret": secret});
+  hangupAndDeleteRoom(String room) async {
+    this.send(
+      message: {
+        "request": "destroy",
+        "room": room,
+      },
+    );
     await _webRTCHandle.myStream.dispose();
     await _webRTCHandle.pc.close();
     _context.destroy();
@@ -229,11 +234,15 @@ class Plugin {
   }
 
   leaveRoom(String room) async {
-    var json =
-        await this.send(message: {"request": "listparticipants", "room": room});
+    var json = await this.send(
+      message: {
+        "request": "listparticipants",
+        "room": room,
+      },
+    );
     if (json['janus'] == 'success') {
-      var plugindata = json['plugindata'];
-      var data = plugindata['data'];
+      var pluginData = json['plugindata'];
+      var data = pluginData['data'];
       var event = data['audiobridge'];
 
       if (event == 'participants') {
@@ -241,7 +250,7 @@ class Plugin {
         if (participants is List && participants != null) {
           participants.length > 1
               ? await hangup()
-              : await hangupAndDeleteRoom();
+              : await hangupAndDeleteRoom(room);
         }
       }
     }
