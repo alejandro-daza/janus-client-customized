@@ -228,7 +228,7 @@ class Plugin {
     _webRTCHandle.pc = null;
   }
 
-  leaveRoom({String room = 1234}) async {
+  leaveRoom(String room) async {
     var json =
         await this.send(message: {"request": "listparticipants", "room": room});
     if (json['janus'] == 'success') {

@@ -1,6 +1,6 @@
 name: janus_client
 description: janus gateway client for dart
-version: 0.0.5
+version: 0.0.6
 homepage: https://github.com/shivanshtalwar0/flutter_janus_client
 
 environment:
