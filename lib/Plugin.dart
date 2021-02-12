@@ -213,11 +213,16 @@ class Plugin {
   }
 
   hangup() async {
-    this.send(message: {"request": "leave"});
-    await _webRTCHandle.myStream.dispose();
-    await _webRTCHandle.pc.close();
-    _context.destroy();
-    _webRTCHandle.pc = null;
+    this.send(
+      message: {
+        "request": "leave",
+      },
+    );
+    this.destroy();
+    // await _webRTCHandle.myStream.dispose();
+    // await _webRTCHandle.pc.close();
+    // _context.destroy();
+    // _webRTCHandle.pc = null;
   }
 
   hangupAndDeleteRoom(String room) async {
@@ -227,10 +232,11 @@ class Plugin {
         "room": room,
       },
     );
-    await _webRTCHandle.myStream.dispose();
-    await _webRTCHandle.pc.close();
-    _context.destroy();
-    _webRTCHandle.pc = null;
+    this.destroy();
+    // await _webRTCHandle.myStream.dispose();
+    // await _webRTCHandle.pc.close();
+    // _context.destroy();
+    // _webRTCHandle.pc = null;
   }
 
   leaveRoom(String room) async {
