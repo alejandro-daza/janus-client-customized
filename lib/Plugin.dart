@@ -111,7 +111,7 @@ class Plugin {
     }
   }
 
-  Future<void> disconnectLocalStream() async{
+  Future<MediaStream> disconnectLocalStream() async{
     await _webRTCHandle.pc.removeStream(_webRTCHandle.myStream);
     _webRTCHandle.myStream = null;
     return null;
