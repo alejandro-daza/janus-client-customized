@@ -111,6 +111,12 @@ class Plugin {
     }
   }
 
+  Future<void> disconnectLocalStream() async{
+    await _webRTCHandle.pc.removeStream(_webRTCHandle.myStream);
+    _webRTCHandle.myStream = null;
+    return null;
+  }
+
   switchCamera() async {
     if (_webRTCHandle.myStream != null) {
       final videoTrack = _webRTCHandle.myStream
