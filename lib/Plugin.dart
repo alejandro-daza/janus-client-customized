@@ -240,7 +240,9 @@ class Plugin {
     this.destroy();
   }
 
-  leaveRoom(String room, bool shouldDestroy) async {
+  leaveRoom(String room,{
+    bool shouldDestroy: true,
+  }) async {
     if(shouldDestroy){
       var json = await this.send(
         message: {
