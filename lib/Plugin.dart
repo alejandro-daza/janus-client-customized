@@ -218,20 +218,19 @@ class Plugin {
     return;
   }
 
-  hangup() async {
+  hangup({
+    bool shouldDestroy: true
+  }) async {
     this.send(
       message: {
         "request": "leave",
       },
     );
-    this.destroy();
-    // await _webRTCHandle.myStream.dispose();
-    // await _webRTCHandle.pc.close();
-    // _context.destroy();
-    // _webRTCHandle.pc = null;
+    if(shouldDestroy)
+      this.destroy();
   }
 
-  hangupAndDeleteRoom(String room) async {
+  _destroyRoom(String room) async {
     this.send(
       message: {
         "request": "destroy",
@@ -239,32 +238,32 @@ class Plugin {
       },
     );
     this.destroy();
-    // await _webRTCHandle.myStream.dispose();
-    // await _webRTCHandle.pc.close();
-    // _context.destroy();
-    // _webRTCHandle.pc = null;
   }
 
-  leaveRoom(String room) async {
-    var json = await this.send(
-      message: {
-        "request": "listparticipants",
-        "room": room,
-      },
-    );
-    if (json['janus'] == 'success') {
-      var pluginData = json['plugindata'];
-      var data = pluginData['data'];
-      var event = data['audiobridge'];
+  leaveRoom(String room, bool shouldDestroy) async {
+    if(shouldDestroy){
+      var json = await this.send(
+        message: {
+          "request": "listparticipants",
+          "room": room,
+        },
+      );
+      if (json['janus'] == 'success') {
+        var pluginData = json['plugindata'];
+        var data = pluginData['data'];
+        var event = data['audiobridge'];
 
-      if (event == 'participants') {
-        var participants = data['participants'];
-        if (participants is List && participants != null) {
-          participants.length > 1
-              ? await hangup()
-              : await hangupAndDeleteRoom(room);
+        if (event == 'participants') {
+          var participants = data['participants'];
+          if (participants is List && participants != null) {
+            participants.length > 1
+                ?await hangup()
+                :await _destroyRoom(room);
+          }
         }
       }
+    }else{
+      await hangup(shouldDestroy: false);
     }
   }
 
