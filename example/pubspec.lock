@@ -98,9 +98,11 @@ packages:
   flutter_webrtc:
     dependency: transitive
     description:
-      name: flutter_webrtc
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: a80e742af1192114abd52931384794f40b11c01e
+      resolved-ref: a80e742af1192114abd52931384794f40b11c01e
+      url: "https://github.com/flutter-webrtc/flutter-webrtc"
+    source: git
     version: "0.5.8"
   http:
     dependency: transitive
